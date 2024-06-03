@@ -22,12 +22,44 @@
     </div>
 
     <div id="score-display-container">
-
+      <div id="player1-score-container">
+        <div id="name-player1" class="score-player-label">Player 1:</div>
+        <div id ="score-player1">0</div id ="player1-score">
+      </div>
+      <div id="player2-score-container">
+        <div id="name-player2" class="score-player-label">Player 2:</div>
+        <div id ="score-player2">0</div id ="player2-score">
+      </div>
     </div>
 
     <div id="control-display-container">
-
+      <button id="reset-button" class="control-button">Reset Game</button>
+      <button id="option-button-player-1" class="control-button">P1 Options</button>
+      <button id="option-button-player-2" class="control-button">P2 Options</button>
     </div>
+
+    <dialog id="edit-player-dialog">
+      <form method="dialog" id="edit-player-form">
+
+        <div id="form-input-container">
+
+          <div id="player-name-group" class="input-group">
+            <label for="player-name">Name:</label>
+            <input type="text" id="player-name" name="player-name" placeholder="Player Name">
+          </div>
+
+          <div id="player-color-group" class="input-group">
+            <label for="player-color">Color:</label>
+            <input type="text" id="player-color" name="player-color" placeholder="Player Color">
+          </div>
+
+        </div>
+
+        <button id="submit-changes" type="submit">Save</button>
+        <button id="cancel-dialog" type="reset">Cancel</button>
+
+      </form>
+    </dialog>
 
   </div>
 </body>
