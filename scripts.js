@@ -31,9 +31,9 @@ let gameEnvironment = (function() {
   let scorePlayer2 = document.getElementById("score-player2");
   let namePlayer2 = document.getElementById("name-player2");
   let player1 = createPlayer("Player One", "red");
-  namePlayer1.style.color = `${player1.color}`;
+  namePlayer1.style.color = `${player1.getColor()}`;
   let player2 = createPlayer("Player Two", "blue");
-  namePlayer2.style.color = `${player2.color}`;
+  namePlayer2.style.color = `${player2.getColor()}`;
   let turn = 1;
   let gameEndedState = false;
   let editingPlayer;
@@ -63,29 +63,25 @@ let gameEnvironment = (function() {
 
     let playerName = document.querySelector("#player-name");
     let playerColor = document.querySelector("#player-color");
+
     if (playerName.value.trim() !== '') {
       if (editingPlayer === "player1") {
       changePlayerName(player1, playerName.value);
-      namePlayer1.textContent = player1.name + ":";
-      console.log(player1.name);
+      namePlayer1.textContent = player1.getName() + ":";
       }
       if (editingPlayer === "player2") {
         changePlayerName(player2, playerName.value);
-        namePlayer2.textContent = player2.name + ":";
-        console.log(player2.name);
+        namePlayer2.textContent = player2.getName() + ":";
         }
     }
     if (playerColor.value.trim() !== '') {
       if (editingPlayer === "player1") {
-        console.log(playerColor.value);
         changePlayerColor(player1, playerColor.value);
-        namePlayer1.style.color = `${player1.color}`;
-        console.log(player1.color);
+        namePlayer1.style.color = `${player1.getColor()}`;
         }
         if (editingPlayer === "player2") {
           changePlayerColor(player2, playerColor.value);
-          namePlayer2.style.color = `${player2.color}`;
-          console.log(player2.color);
+          namePlayer2.style.color = `${player2.getColor()}`;
         }
     }
     editPlayerForm.reset();
@@ -101,27 +97,31 @@ let gameEnvironment = (function() {
 
 
   function createPlayer(name, color) {
-    let player = {};
-    player.score = 0;
-    player.name = name;
-    player.color = color;
-    player.increaseScore = function increaseScore() {
-      player.score++;
+    let score = 0;
+
+    function increaseScore() {
+      score++;
     };
-    player.getScore = function getScore() {
-      return player.score;
+    function getScore() {
+      return score;
     };
-    player.resetScore = function resetScore() {
-      player.score = 0;
-    };;
-    player.setNewColor = function setNewColor(newColor) {
-      player.color = newColor;
+    function resetScore() {
+      score = 0;
     };
-    player.setNewName = function setNewName(newName) {
-      player.name = newName;
+    function setNewColor(newColor) {
+      color = newColor;
+    };
+    function setNewName(newName) {
+      name = newName;
+    };
+    function getColor(newColor) {
+      return color;
+    };
+    function getName(newName) {
+      return name;
     };
 
-    return player;
+    return {increaseScore, getScore, resetScore, setNewColor, setNewName, getName, getColor};
   }
 
 
@@ -169,7 +169,7 @@ let gameEnvironment = (function() {
     }
 
     if ( gameEndedState ) {
-      let winningPlayerName = winningPlayer.name ? winningPlayer.name : winningPlayer;
+      let winningPlayerName = winningPlayer === "Nobody" ? winningPlayer : winningPlayer.getName();
       setTimeout(() => {
         resolveGame(gameState, winningPlayerName);
         scorePlayer1.textContent = player1.getScore();
@@ -182,19 +182,11 @@ let gameEnvironment = (function() {
   }
 
   function resolveGame(endState, winningPlayerName) {
-    //.textContent = `${endState} \n ${winnerName} wins!`
-    //.showModal()
-    //event listener on modal will call resetGame()
-
-    console.log(winningPlayerName);
-    console.log(player1.name);
-    console.log(winningPlayerName === player1.name);
     switch (winningPlayerName) {
-      case `${player1.name}`:
+      case `${player1.getName()}`:
         player1.increaseScore();
-        console.log(player1.getScore());
         break;
-      case `${player2.name}`:
+      case `${player2.getName()}`:
         player2.increaseScore();
         break;
       default:
