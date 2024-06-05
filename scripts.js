@@ -100,28 +100,28 @@ let gameEnvironment = (function() {
 
 
 
-  function createPlayer(inputName, inputColor) {
-    let score = 0;
-    let name = inputName;
-    let color = inputColor;
+  function createPlayer(name, color) {
+    let player = {};
+    player.score = 0;
+    player.name = name;
+    player.color = color;
+    player.increaseScore = function increaseScore() {
+      player.score++;
+    };
+    player.getScore = function getScore() {
+      return player.score;
+    };
+    player.resetScore = function resetScore() {
+      player.score = 0;
+    };;
+    player.setNewColor = function setNewColor(newColor) {
+      player.color = newColor;
+    };
+    player.setNewName = function setNewName(newName) {
+      player.name = newName;
+    };
 
-    function increaseScore() {
-      score++;
-    };
-    function getScore() {
-      return score;
-    };
-    function resetScore() {
-      score = 0;
-    };
-    function setNewColor(newColor) {
-      this.color = newColor;
-    };
-    function setNewName(newName) {
-      this.name = newName;
-    };
-
-    return {name: this.name, color, increaseScore, getScore, resetScore, setNewColor, setNewName};
+    return player;
   }
 
 
